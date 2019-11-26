@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,7 +65,7 @@ public class ImageFragment extends Fragment {
     ImageView resPhoto;
 
     @BindView(R.id.res_photo_txt)
-    TextView resPhotoText;
+    EditText resPhotoText;
 
     public void imageSetupFragment(Bitmap bitmap) {
         if (bitmap != null) {
