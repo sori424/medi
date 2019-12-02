@@ -1,32 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="25dp"
+    android:background="@drawable/bg_gradient">
 
-    <LinearLayout
+    <RelativeLayout android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
+        android:visibility="visible">
+
+
+        <LinearLayout android:id="@+id/upperContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/make_photo_button"
-                android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="50dp">
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/logo"
+                android:tint="#FFFFFF"
+                android:layout_marginLeft="40dp"/>
+            <LinearLayout android:id="@+id/titleContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Photo!"/>
-
-
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="50dp"
+                    android:textColor="#FFFFFF"
+                    android:text="약올리기"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:textColor="#FFFFFF"
+                    android:text="Find Your Medicine"/>
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/res_photo_layout"
+
+
+        <LinearLayout android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+            <TextView android:id="@+id/temp" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textSize="40dp"
+                android:fontFamily="sans-serif-thin" android:layout_gravity="center"
+                android:text="SEARCH BAR" android:textColor="#FFFFFF"/>
         </LinearLayout>
 
-    </LinearLayout>
 
-</FrameLayout>
+        <LinearLayout android:id="@+id/choiceContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <LinearLayout android:id="@+id/findContainer"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_weight="1"
+                    android:gravity="center" android:padding="50dp"
+                    android:background="#3CF1EBF1">
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/camera_icon"
+                        android:tint="#FFFFFF"/>
+                    <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
+                    <Button android:id="@+id/findButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="PHOTO"/>
+                </LinearLayout>
+                <Space android:layout_width="10dp" android:layout_height="wrap_content"/>
+                <LinearLayout android:id="@+id/alarmContainer"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_weight="1"
+                    android:gravity="center" android:padding="50dp"
+                    android:background="#3CF1EBF1">
+                    <ImageView
+                        android:layout_width="100dp" android:layout_height="100dp"
+                        android:src="@drawable/alarm_icon" android:tint="#FFFFFF"/>
+                    <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
+                    <Button android:id="@+id/alarmButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="ALARM"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
+
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" android:weightSum="1">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:layout_weight="1"
+                    android:gravity="center" android:padding="30dp"
+                    android:background="#3CF1EBF1">
+                    <ImageView android:layout_width="80dp" android:layout_height="80dp"
+                        android:src="@drawable/history_icon" android:tint="#FFFFFF"/>
+                    <Space android:layout_width="20dp" android:layout_height="wrap_content"/>
+                    <Button android:id="@+id/historyButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="History"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
