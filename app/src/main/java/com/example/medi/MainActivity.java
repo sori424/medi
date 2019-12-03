@@ -4,22 +4,30 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
+
+
 
     SQLiteDatabase db;
     int PERMISSION_ALL = 1;
@@ -29,6 +37,13 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
+
+
+    @BindView(R.id.mainContainer)
+    RelativeLayout mainLayout;
+
+    @BindView(R.id.layout_frag)
+    FrameLayout fragLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +59,29 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         ButterKnife.bind(this);
         checkPermissions();
+
+
+        // MainActivity에서 AlarmActivity로 화면 넘어가기
+        Button btn1 = (Button)findViewById(R.id.alarmButton);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    @OnClick(R.id.make_photo_button)
+    @OnClick(R.id.findButton)
     void onClickScanButton(){
         if (!flagPermissions){
             checkPermissions();
             return;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.res_photo_layout, new PhotoFragment()).addToBackStack(null).commit();
+        mainLayout.setVisibility(View.GONE);
+        fragLayout.setVisibility(View.VISIBLE);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new PhotoFragment()).addToBackStack(null).commit();
+        //        getSupportFragmentManager().beginTransaction().replace(R.id.res_photo, new PhotoFragment()).addToBackStack(null).commit();
     }
 
     @SuppressLint("NewApi")
@@ -81,7 +110,11 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             ImageFragment imageFragment = new ImageFragment();
             imageFragment.imageSetupFragment(bitmap);
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.res_photo_layout, imageFragment).addToBackStack(null).commit();
+            //            mainLayout.setVisibility(View.GONE);
+            //            fragLayout.setVisibility(View.VISIBLE);
+            //            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, imageFragment).addToBackStack(null).commit();
+
+
         }
     }
 

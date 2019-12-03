@@ -19,8 +19,8 @@
             android:gravity="center"
             android:layout_marginTop="50dp">
             <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/logo"
                 android:tint="#FFFFFF"
                 android:layout_marginLeft="40dp"/>
@@ -50,10 +50,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerInParent="true">
-            <TextView android:id="@+id/temp" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:textSize="40dp"
-                android:fontFamily="sans-serif-thin" android:layout_gravity="center"
-                android:text="SEARCH BAR" android:textColor="#FFFFFF"/>
+<!--            <item-->
+<!--                android:id="@+id/action_search"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_align="true"-->
+<!--                android:icon="@drawable/ic_search_white_24dp"-->
+<!--                android:title="Search"/>-->
         </LinearLayout>
 
 
@@ -126,5 +129,10 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <FrameLayout
+        android:id="@+id/layout_frag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </RelativeLayout>
