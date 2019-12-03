@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
             fragLayout.setVisibility(View.GONE);
             imageLayout.setVisibility(View.VISIBLE);
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_image_frag, new ImageFragment()).addToBackStack(null).commit();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_image_frag, imageFragment).addToBackStack(null).commit();
             //            mainLayout.setVisibility(View.GONE);
             //            fragLayout.setVisibility(View.VISIBLE);
             //            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, imageFragment).addToBackStack(null).commit();

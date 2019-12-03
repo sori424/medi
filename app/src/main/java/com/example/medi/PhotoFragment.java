@@ -91,7 +91,6 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
                 if (camera != null) {
                     camera.takePicture(myShutterCallback,
                             myPictureCallback_RAW, myPictureCallback_JPG);
-
                 }
             }
         });
