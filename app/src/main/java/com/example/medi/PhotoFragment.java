@@ -1,6 +1,7 @@
 package com.example.medi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -18,6 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +67,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRetainInstance(true);
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +81,21 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        Button button1 = (Button)view.findViewById(R.id.make_photo_button);
+
+        button1.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Log.d("click", "click fragment");
+                if (camera != null) {
+                    camera.takePicture(myShutterCallback,
+                            myPictureCallback_RAW, myPictureCallback_JPG);
+
+                }
+            }
+        });
+
         return view;
     }
 

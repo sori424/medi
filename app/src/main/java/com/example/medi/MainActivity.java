@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     @BindView(R.id.layout_frag)
     FrameLayout fragLayout;
 
+    @BindView(R.id.layout_image_frag)
+    FrameLayout imageLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,15 +67,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         checkPermissions();
 
 
-        // MainActivity에서 AlarmActivity로 화면 넘어가기
-        Button btn1 = (Button)findViewById(R.id.alarmButton);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @OnClick(R.id.findButton)
@@ -110,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             ImageFragment imageFragment = new ImageFragment();
             imageFragment.imageSetupFragment(bitmap);
 
+            fragLayout.setVisibility(View.GONE);
+            imageLayout.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_image_frag, new ImageFragment()).addToBackStack(null).commit();
             //            mainLayout.setVisibility(View.GONE);
             //            fragLayout.setVisibility(View.VISIBLE);
             //            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, imageFragment).addToBackStack(null).commit();
@@ -117,6 +117,13 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         }
     }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_image_frag, fragment).commit();
+    }
+
 
     void DBInsert(String tableName, String medName, Integer medID, String medFunc, String medHow, String medCau) {
         Log.d(TAG, "Insert Data " + medName);
