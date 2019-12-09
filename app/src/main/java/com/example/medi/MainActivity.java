@@ -11,13 +11,13 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -34,11 +34,15 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             Manifest.permission.CAMERA
     };
 
+
     @BindView(R.id.mainContainer)
     RelativeLayout mainLayout;
 
     @BindView(R.id.layout_frag)
     FrameLayout fragLayout;
+
+    @BindView(R.id.layout_image_frag)
+    FrameLayout imageLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         ButterKnife.bind(this);
         checkPermissions();
+
+
     }
 
     @OnClick(R.id.findButton)
@@ -65,8 +71,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         mainLayout.setVisibility(View.GONE);
         fragLayout.setVisibility(View.VISIBLE);
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new PhotoFragment()).addToBackStack(null).commit();
-
-//        getSupportFragmentManager().beginTransaction().replace(R.id.res_photo, new PhotoFragment()).addToBackStack(null).commit();
+        //        getSupportFragmentManager().beginTransaction().replace(R.id.res_photo, new PhotoFragment()).addToBackStack(null).commit();
     }
 
     @SuppressLint("NewApi")
@@ -95,11 +100,24 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             ImageFragment imageFragment = new ImageFragment();
             imageFragment.imageSetupFragment(bitmap);
 
-//            mainLayout.setVisibility(View.GONE);
-//            fragLayout.setVisibility(View.VISIBLE);
-//            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, imageFragment).addToBackStack(null).commit();
+            fragLayout.setVisibility(View.GONE);
+            imageLayout.setVisibility(View.VISIBLE);
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_image_frag, imageFragment).addToBackStack(null).commit();
+            //            mainLayout.setVisibility(View.GONE);
+            //            fragLayout.setVisibility(View.VISIBLE);
+            //            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, imageFragment).addToBackStack(null).commit();
+
+
         }
     }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_image_frag, fragment).commit();
+    }
+
 
     void DBInsert(String tableName, String medName, Integer medID, String medFunc, String medHow, String medCau) {
         Log.d(TAG, "Insert Data " + medName);
