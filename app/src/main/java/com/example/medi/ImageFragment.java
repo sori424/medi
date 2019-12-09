@@ -199,6 +199,5 @@ public class ImageFragment extends Fragment {
         }
         return message;
     }
-
-
+    // editText 값가져와서 DB 에 검색할 것 : String number = resPhotoText.getText().toString();
 }
