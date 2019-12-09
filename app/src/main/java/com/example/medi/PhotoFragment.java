@@ -52,8 +52,9 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
 
     @BindView(R.id.border_camera)
     View borderCamera;
-    @BindView(R.id.res_border_size)
-    TextView resBorderSizeTV;
+
+//    @BindView(R.id.res_border_size)
+//    TextView resBorderSizeTV;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,6 +83,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         Button button1 = (Button)view.findViewById(R.id.make_photo_button);
+        Button button2 = (Button)view.findViewById(R.id.cancel_button);
 
         button1.setOnClickListener(new View.OnClickListener(){
 
@@ -92,6 +94,13 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
                     camera.takePicture(myShutterCallback,
                             myPictureCallback_RAW, myPictureCallback_JPG);
                 }
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
 
@@ -169,7 +178,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
 
                 String info = "Preview width:" + String.valueOf(x1) + "\n" + "Preview height:" + String.valueOf(y1) + "\n" +
                         "Border width:" + String.valueOf(x2) + "\n" + "Border height:" + String.valueOf(y2);
-                resBorderSizeTV.setText(info);
+//                resBorderSizeTV.setText(info);
 
                 camera.setPreviewDisplay(surfaceHolder);
                 camera.startPreview();
@@ -232,6 +241,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
 
         }
     }
+
 
     Camera.ShutterCallback myShutterCallback = new Camera.ShutterCallback() {
         @Override
