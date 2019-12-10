@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                     String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
 
                     Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
+                    getResult(cursor);
                 }
             }
         } finally {
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         Cursor cursor = null;
 
         try {
-            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{Integer.toString(MEDID)}, null, null, null);
+            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{String.valueOf(MEDID)}, null, null, null);
 
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -198,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                     String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
 
                     Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
+                    getResult(cursor);
                 }
             }
         } finally {
@@ -222,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                     String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
 
                     Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
+                    getResult(cursor);
                 }
             }
         } finally {
@@ -229,5 +232,18 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                 cursor.close();
             }
         }
+    }
+
+    public String getResult(Cursor cursor){
+        String result="";
+        while (cursor.moveToNext()){
+            result+=cursor.getString(0)+":"
+                    +cursor.getString(1)+"|"
+                    +cursor.getString(2)+"|"
+                    +cursor.getString(3)+"|"
+                    +cursor.getString(4)+
+                    "\n";
+        }
+        return result;
     }
 }
