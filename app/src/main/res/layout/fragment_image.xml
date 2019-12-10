@@ -35,8 +35,7 @@
             android:layout_marginBottom="30dp"
             android:text="search"
             android:textSize="20sp"
-            android:background="@drawable/photo_button"
-            android:onClick="searchClick"/>
+            android:background="@drawable/photo_button" />
 
     </LinearLayout>
 
