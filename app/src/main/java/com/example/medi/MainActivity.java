@@ -29,8 +29,6 @@ import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
 
-    TestAdapter mDbHelper;
-    DatabaseHelper databaseHelper;
     SQLiteDatabase db;
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
@@ -55,18 +53,17 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDbHelper = new TestAdapter(this);
-        mDbHelper.createDatabase();
-        mDbHelper.open();
-
-        Cursor testdata = mDbHelper.getTestData();
-
-        databaseHelper = new DatabaseHelper(this, "HistoryDB", null, 1);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this, "HistoryDB", null, 1);
         // 쓰기 가능한 SQLiteDatabase 인스턴스 구함
-        //db = databaseHelper.getWritableDatabase();
+        db = databaseHelper.getWritableDatabase();
+
+        db.close();
+        databaseHelper.close();
 
         ButterKnife.bind(this);
         checkPermissions();
+
+
     }
 
     @OnClick(R.id.findButton)
