@@ -25,6 +25,18 @@
             android:src="@drawable/ic_launcher_background"
             android:layout_marginTop="15dp"/>
 
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/camera_preview_surface"
+            android:layout_alignRight="@id/camera_preview_surface"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="30dp"
+            android:text="search"
+            android:textSize="20sp"
+            android:background="@drawable/photo_button"/>
+
     </LinearLayout>
 
 </FrameLayout>
