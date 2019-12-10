@@ -18,12 +18,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".AlarmActivity"></activity>
+        <activity android:name=".ImageFragment"
+            android:label="화면전환"
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SearchResult"
+            android:label="화면전환"></activity>
     </application>
 
 </manifest>

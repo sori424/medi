@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,7 @@ import static android.content.ContentValues.TAG;
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
 
     SQLiteDatabase db;
+
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
 
@@ -174,11 +176,18 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         }
     }
 
-    void DBSearch(String tableName, Integer MEDID) {        // Search by scanner
+    @OnClick(R.id.search_button)
+    void searchClick(View v){
+        Intent intent = new Intent(MainActivity.this, SearchResult.class);
+        startActivity(intent);
+    }
+
+    void DBSearch(String tableName, int MEDID) {        // Search by scanner
+
         Cursor cursor = null;
 
         try {
-            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{MEDID.toString()}, null, null, null);
+            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{Integer.toString(MEDID)}, null, null, null);
 
             if (cursor != null) {
                 while (cursor.moveToNext()) {

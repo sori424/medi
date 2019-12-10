@@ -2,6 +2,7 @@ package com.example.medi;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -40,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.content.ContentValues.TAG;
 
@@ -184,6 +187,8 @@ public class ImageFragment extends Fragment {
             }
 
             protected void onPostExecute(String result) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.DBSearch("DBMed", Integer.parseInt(result));
                 resPhotoText.setText(result);
             }
         }.execute();

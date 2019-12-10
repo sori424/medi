@@ -61,7 +61,7 @@ public class TestAdapter
     {
         try
         {
-            String sql ="SELECT * FROM myTable";
+            String sql ="SELECT * FROM DBMed";
 
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur!=null)
