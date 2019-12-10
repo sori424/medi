@@ -39,17 +39,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="23dp"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#033f69"
                     android:text="Find Your Medicine"/>
             </LinearLayout>
         </LinearLayout>
 
 
-        <LinearLayout android:id="@+id/searchBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerInParent="true">
+<!--        <LinearLayout android:id="@+id/searchBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_centerInParent="true">-->
 <!--            <item-->
 <!--                android:id="@+id/action_search"-->
 <!--                android:layout_width="match_parent"-->
@@ -57,7 +57,7 @@
 <!--                android:layout_align="true"-->
 <!--                android:icon="@drawable/ic_search_white_24dp"-->
 <!--                android:title="Search"/>-->
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
 
         <LinearLayout android:id="@+id/choiceContainer"
@@ -65,15 +65,57 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:id="@+id/SearchBarContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#3CF1EBF1">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="40dp"
+                        android:paddingRight="8dp"
+                        android:hint="제품명 또는 제품번호를 입력하세요">
+                    </EditText>
+
+                </RelativeLayout>
+
+                <ImageButton
+                    android:id="@+id/search_button"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/yellow"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/camera_icon" >
+                </ImageButton>
+
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2">
-                <LinearLayout android:id="@+id/findContainer"
-                    android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:orientation="vertical" android:layout_weight="1"
-                    android:gravity="center" android:padding="50dp"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:id="@+id/findContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="50dp"
                     android:background="#91ddfe">
                     <ImageView
                         android:layout_width="100dp"
@@ -85,14 +127,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:text="PHOTO"
-                        />
+                        android:text="PHOTO"/>
                 </LinearLayout>
                 <Space android:layout_width="10dp" android:layout_height="wrap_content"/>
                 <LinearLayout android:id="@+id/alarmContainer"
-                    android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:orientation="vertical" android:layout_weight="1"
-                    android:gravity="center" android:padding="50dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="50dp"
                     android:background="#91ddfe">
                     <ImageView
                         android:layout_width="100dp" android:layout_height="100dp"
@@ -117,10 +161,15 @@
                     android:orientation="horizontal" android:layout_weight="1"
                     android:gravity="center" android:padding="30dp"
                     android:background="#91ddfe">
-                    <ImageView android:layout_width="80dp" android:layout_height="80dp"
-                        android:src="@drawable/history_icon" android:tint="#033359"/>
-                    <Space android:layout_width="20dp" android:layout_height="wrap_content"/>
-                    <Button android:id="@+id/historyButton"
+                    <ImageView android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/history_icon"
+                        android:tint="#033359"/>
+                    <Space
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"/>
+                    <Button
+                        android:id="@+id/historyButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
