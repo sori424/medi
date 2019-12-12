@@ -1,9 +1,12 @@
 package com.example.medi;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 import java.io.File;
@@ -14,10 +17,11 @@ import java.io.OutputStream;
 
 public class DatabaseHelperforMD extends SQLiteOpenHelper
 {
-    private static String TAG = "DataBaseHelper"; //Logcat에 출력할 태그이름
+    private static String TAG = "DataBaseHelpermedi"; //Logcat에 출력할 태그이름
+    private static String DB_PATH="";
     //디바이스 장치에서 데이터베이스의 경로
-    private static String DB_PATH = "";
-    private static String DB_NAME ="medi"; // 데이터베이스 이름
+    private static String DB_NAME = "Medi.db"; // 데이터베이스 이름
+
     private SQLiteDatabase mDataBase;
     private final Context mContext;
 
@@ -37,7 +41,6 @@ public class DatabaseHelperforMD extends SQLiteOpenHelper
     public void createDataBase() throws IOException
     {
         //데이터베이스가 없으면 asset폴더에서 복사해온다.
-
         boolean mDataBaseExist = checkDataBase();
         if(!mDataBaseExist)
         {
@@ -47,7 +50,7 @@ public class DatabaseHelperforMD extends SQLiteOpenHelper
             {
                 //Copy the database from assests
                 copyDataBase();
-                Log.e(TAG, "Database selected");
+                Log.e(TAG, "createDatabase database created");
             }
             catch (IOException mIOException)
             {
@@ -60,7 +63,7 @@ public class DatabaseHelperforMD extends SQLiteOpenHelper
     private boolean checkDataBase()
     {
         File dbFile = new File(DB_PATH + DB_NAME);
-        Log.v("dbFile", dbFile + "   "+ dbFile.exists());
+        //Log.v("dbFile", dbFile + "   "+ dbFile.exists());
         return dbFile.exists();
     }
 

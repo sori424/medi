@@ -209,12 +209,14 @@ public class ImageFragment extends Fragment {
     @OnClick(R.id.search_button)
     void onClickSearchButton(){
         String number = resPhotoText.getText().toString();
+        Log.d(TAG,""+number.length());
         MainActivity mainActivity = (MainActivity)getActivity();
         if (number.length() != 9) {
             Toast.makeText(getActivity(),"숫자가 인식되지 않았습니다.\n 입력창에 직접 넣어 주세요.",Toast.LENGTH_LONG).show();
         } else {
-            mainActivity.DBSearch("DBMed", Integer.parseInt(number));
+            mainActivity.DBSearch(Integer.parseInt(number));
+            Intent intent = new Intent(getActivity(), SearchResult.class);
+            startActivity(intent);
         }
     }
-
 }

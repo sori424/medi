@@ -14,13 +14,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +35,7 @@ import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
 
-    SQLiteDatabase db;
+    public static Context mContext;
 
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
@@ -40,6 +45,20 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             Manifest.permission.CAMERA
     };
 
+    public List<Medicine> mediList;
+
+    private void initLoadDB(){
+
+        DataAdapter mDbHelper = new DataAdapter(getApplicationContext());
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        // db에 있는 값들을 model을 적용해서 넣는다.
+        mediList = mDbHelper.getTableData();
+
+        // db 닫기
+        mDbHelper.close();
+    }
 
     @BindView(R.id.mainContainer)
     RelativeLayout mainLayout;
@@ -51,16 +70,14 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     FrameLayout imageLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initLoadDB();
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this, "HistoryDB", null, 1);
-        // 쓰기 가능한 SQLiteDatabase 인스턴스 구함
-        db = databaseHelper.getWritableDatabase();
-
-        db.close();
-        databaseHelper.close();
+        DbOpenHelper dbhelper = new DbOpenHelper(this);
+        dbhelper.open();
+        dbhelper.create();
 
         ButterKnife.bind(this);
         checkPermissions();
@@ -125,18 +142,18 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     }
 
 
-    void DBInsert(String tableName, String medName, Integer medID, String medFunc, String medHow, String medCau) {
+    /*void DBInsert(String tableName, String medName, Integer medID, String medFunc, String medHow, String medCau) {
         Log.d(TAG, "Insert Data " + medName);
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("보험코드", medID);
-        contentValues.put("의약품명", medName);
-        contentValues.put("효과", medFunc);
-        contentValues.put("사용법", medHow);
-        contentValues.put("주의사항", medCau);
+        contentValues.put("codeNum", medID);
+        contentValues.put("name", medName);
+        contentValues.put("func", medFunc);
+        contentValues.put("use", medHow);
+        contentValues.put("cau", medCau);
 
         // 리턴값: 생성된 데이터의 id
-        long id = db.insert(tableName, null, contentValues);
+        long id = .insert(tableName, null, contentValues);
 
         Log.d(TAG, "id: " + id);
     }
@@ -175,20 +192,29 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                 cursor.close();
             }
         }
-    }
+    }*/
 
-    @OnClick(R.id.search_button)
-    void searchClick(View v){
-        Intent intent = new Intent(MainActivity.this, SearchResult.class);
-        startActivity(intent);
-    }
+    void DBSearch(int MEDID) {        // Search by scanner
 
-    void DBSearch(String tableName, int MEDID) {        // Search by scanner
+        boolean found = false;
+        int i;
 
-        Cursor cursor = null;
+        for (i = 0; i < mediList.size(); i++){
+            if (MEDID == mediList.get(i).codeNum){
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            mediList.get(i);
+        } else {
+
+        }
+        /*Cursor cursor = null;
 
         try {
-            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{String.valueOf(MEDID)}, null, null, null);
+            cursor = db.query("DBMed2", null, "MEDID" + " = ?", new String[]{String.valueOf(MEDID)}, null, null, null);
 
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -206,11 +232,28 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             if (cursor != null) {
                 cursor.close();
             }
-        }
+        }*/
     }
 
     void DBSearch(String tableName, String MEDNAME) {       // Search by toolbar
-        Cursor cursor = null;
+
+        boolean found = false;
+        int i;
+
+        for (i = 0; i < mediList.size(); i++){
+            if (MEDNAME == mediList.get(i).name){
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            mediList.get(i);
+        } else {
+
+        }
+
+        /*Cursor cursor = null;
 
         try {
             cursor = db.query(tableName, null, "MEDNAME" + " LIKE ?", new String[]{"%" + MEDNAME + "%"}, null, null, "MEDNAME");
@@ -231,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             if (cursor != null) {
                 cursor.close();
             }
-        }
+        }*/
     }
 
     public String getResult(Cursor cursor){
