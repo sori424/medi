@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -187,10 +188,9 @@ public class ImageFragment extends Fragment {
             }
 
             protected void onPostExecute(String result) {
-                MainActivity mainActivity = (MainActivity)getActivity();
-                mainActivity.DBSearch("DBMed", Integer.parseInt(result));
                 resPhotoText.setText(result);
             }
+
         }.execute();
     }
 
@@ -200,9 +200,21 @@ public class ImageFragment extends Fragment {
         if (labels != null) {
             message += labels.get(0).getDescription();
         } else {
-            message += "아무 글자도 인식되지 않았습니다";
+            message = "아무 글자도 인식되지 않았습니다";
         }
         return message;
     }
     // editText 값가져와서 DB 에 검색할 것 : String number = resPhotoText.getText().toString();
+
+    @OnClick(R.id.search_button)
+    void onClickSearchButton(){
+        String number = resPhotoText.getText().toString();
+        MainActivity mainActivity = (MainActivity)getActivity();
+        if (number.length() != 9) {
+            Toast.makeText(getActivity(),"숫자가 인식되지 않았습니다.\n 입력창에 직접 넣어 주세요.",Toast.LENGTH_LONG).show();
+        } else {
+            mainActivity.DBSearch("DBMed", Integer.parseInt(number));
+        }
+    }
+
 }
