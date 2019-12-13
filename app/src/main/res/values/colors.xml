@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E6259F</color>
-    <color name="colorPrimaryDark">#D61B50</color>
-    <color name="colorAccent">#FF4081</color>
-
     <color name="red">#F15050</color>
     <color name="red_dark">#d43c3c</color>
     <color name="yellow">#EED45A</color>
@@ -19,4 +15,9 @@
     <color name="darkviolet_dark">#7E50F1</color>
     <color name="violet">#683dd4</color>
     <color name="violet_dark">#b33ec9</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="fab_pressed">#546e7a</color>
 </resources>
