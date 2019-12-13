@@ -62,6 +62,7 @@ public class ImageFragment extends Fragment {
             Manifest.permission.ACCESS_NETWORK_STATE
     };
 
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private Bitmap bitmap;
 

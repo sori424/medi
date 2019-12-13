@@ -22,6 +22,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.Stack;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -64,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         ButterKnife.bind(this);
         checkPermissions();
-
-
     }
 
     @OnClick(R.id.findButton)
@@ -246,4 +246,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         }
         return result;
     }
+
+
 }

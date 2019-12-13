@@ -8,10 +8,10 @@
         android:topRightRadius="50dp"/>
 
     <gradient
-        android:centerColor="#3CF1EBF1"
+        android:centerColor="#eeeeee"
         android:centerX="35%"
-        android:endColor="#3CF1EBF1"
-        android:startColor="#3CF1EBF1"
+        android:endColor="#eeeeee"
+        android:startColor="#eeeeee"
         android:type="linear"/>
 
     <size

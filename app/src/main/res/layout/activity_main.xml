@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="25dp"
-    android:background="#aee6ff">
+    android:background="#7d9abd">
 
     <RelativeLayout android:id="@+id/mainContainer"
         android:layout_width="match_parent"
@@ -22,7 +22,6 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/logo"
-                android:tint="#033359"
                 android:layout_marginLeft="40dp"/>
             <LinearLayout android:id="@+id/titleContainer"
                 android:layout_width="match_parent"
@@ -33,13 +32,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="50dp"
-                    android:textColor="#033f69"
+                    android:textColor="#ffffff"
                     android:text="약올리기"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="23dp"
-                    android:textColor="#033f69"
+                    android:textColor="#000000"
                     android:text="Find Your Medicine"/>
             </LinearLayout>
         </LinearLayout>
@@ -71,17 +70,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1">
+                android:weightSum="1"
+                android:background="#eeeeee">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="#3CF1EBF1">
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="40dp"
+                        android:paddingTop="15dp"
+                        android:paddingLeft="15dp"
                         android:paddingRight="8dp"
                         android:hint="제품명 또는 제품번호를 입력하세요">
                     </EditText>
@@ -95,85 +97,107 @@
                     android:layout_marginEnd="0dp"
                     android:layout_marginRight="0dp"
                     android:adjustViewBounds="true"
-                    android:background="@color/yellow"
+                    android:background="#eeeeee"
+                    android:tint="#033359"
                     android:scaleType="centerInside"
-                    android:src="@drawable/camera_icon" >
+                    android:src="@drawable/search_icon" >
                 </ImageButton>
 
             </LinearLayout>
+
+            <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1.0">
+                android:weightSum="0.6">
+
 
                 <LinearLayout
                     android:id="@+id/findContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.3"
                     android:gravity="center"
-                    android:padding="50dp"
-                    android:background="#91ddfe">
-                    <ImageView
+                    android:padding="25dp"
+                    android:background="#eeeeee">
+                    <ImageButton
+                        android:id="@+id/findButton"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/camera_icon"
-                        android:tint="#033359"/>
-                    <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
-                    <Button android:id="@+id/findButton"
+                        android:tint="#033359"
+                        android:background="@null"/>
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:text="PHOTO"/>
+                        android:textSize="20sp"
+                        android:text="PHOTO"
+                        android:textColor="#000000"/>
                 </LinearLayout>
+
                 <Space android:layout_width="10dp" android:layout_height="wrap_content"/>
+
                 <LinearLayout android:id="@+id/alarmContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.3"
                     android:gravity="center"
-                    android:padding="50dp"
-                    android:background="#91ddfe">
-                    <ImageView
-                        android:layout_width="100dp" android:layout_height="100dp"
-                        android:src="@drawable/alarm_icon" android:tint="#033359"/>
-                    <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
-                    <Button android:id="@+id/alarmButton"
+                    android:padding="25dp"
+                    android:background="#eeeeee">
+                    <ImageButton
+                        android:id="@+id/alarmButton"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/alarm_icon"
+                        android:tint="#033359"
+                        android:background="@null"/>
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:text="ALARM"/>
+                        android:text="ALARM"
+                        android:textColor="#000000"/>
                 </LinearLayout>
             </LinearLayout>
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
 
-            <Space android:layout_width="wrap_content" android:layout_height="10dp"/>
-
-
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" android:weightSum="1">
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:layout_weight="1"
-                    android:gravity="center" android:padding="30dp"
-                    android:background="#91ddfe">
-                    <ImageView android:layout_width="80dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="25dp"
+                    android:background="#eeeeee">
+                    <ImageButton
+                        android:id="@+id/historyButton"
+                        android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/history_icon"
-                        android:tint="#033359"/>
+                        android:tint="#033359"
+                        android:background="@null"/>
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"/>
-                    <Button
-                        android:id="@+id/historyButton"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:text="History"/>
+                        android:text="History"
+                        android:textColor="#000000"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
