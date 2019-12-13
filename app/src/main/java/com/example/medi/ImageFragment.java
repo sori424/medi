@@ -190,7 +190,6 @@ public class ImageFragment extends Fragment {
             protected void onPostExecute(String result) {
                 resPhotoText.setText(result);
             }
-
         }.execute();
     }
 
@@ -211,10 +210,10 @@ public class ImageFragment extends Fragment {
         String number = resPhotoText.getText().toString();
         Log.d(TAG,""+number.length());
         MainActivity mainActivity = (MainActivity)getActivity();
-        if (number.length() != 9) {
+        if (number.length()  == 0) {
             Toast.makeText(getActivity(),"숫자가 인식되지 않았습니다.\n 입력창에 직접 넣어 주세요.",Toast.LENGTH_LONG).show();
         } else {
-            mainActivity.DBSearch(Integer.parseInt(number));
+            mainActivity.DBSearch_scanner(Integer.parseInt(number.replaceAll("[^0-9]","")));
             Intent intent = new Intent(getActivity(), SearchResult.class);
             startActivity(intent);
         }

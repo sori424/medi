@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         }
     }*/
 
-    void DBSearch(int MEDID) {        // Search by scanner
+    void DBSearch_scanner(int MEDID) {        // Search by scanner
 
         boolean found = false;
         int i;
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         }*/
     }
 
-    void DBSearch(String tableName, String MEDNAME) {       // Search by toolbar
+    void DBSearch_tool(String tableName, String MEDNAME) {       // Search by toolbar
 
         boolean found = false;
         int i;
@@ -253,9 +253,9 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         }
 
-        /*Cursor cursor = null;
+        //Cursor cursor = null;
 
-        try {
+        /*try {
             cursor = db.query(tableName, null, "MEDNAME" + " LIKE ?", new String[]{"%" + MEDNAME + "%"}, null, null, "MEDNAME");
 
             if (cursor != null) {

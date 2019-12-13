@@ -10,12 +10,12 @@ public class DataBases {
         public static final String use = "usage";
         public static final String cau = "caution";
         public static final String _TABLENAME0 = "history";
-        public static final String _CREATE0 = "create table if not exists "+_TABLENAME0+"("
-                +_ID+" integer primary key autoincrement, "
-                +codeNum+" text not null , "
-                +name+" text not null , "
-                +func+" text not null , "
-                +use+" text not null" +cau+"text not null"+
-                " );";
+        public static final String _CREATE0 = "CREATE TABLE IF NOT EXISTS "+_TABLENAME0+" ("
+                +_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +codeNum+" TEXT NOT NULL , "
+                +name+" TEXT NOT NULL , "
+                +func+" TEXT NOT NULL , "
+                +use+" TEXT NOT NULL , " +cau+" TEXT NOT NULL"+
+                ")";
     }
 }
