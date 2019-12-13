@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
 
+    private MainBackPressCloseHandler mainBackPressCloseHandler ;
+
     String[] PERMISSIONS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this, "HistoryDB", null, 1);
         // 쓰기 가능한 SQLiteDatabase 인스턴스 구함
@@ -247,5 +250,8 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         return result;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        mainBackPressCloseHandler.onBackPressed();
+    }
 }

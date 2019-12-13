@@ -98,11 +98,12 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
                 }
             }
         });
-
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getActivity().finish();
+                Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -365,5 +366,4 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
             Log.w("ExternalStorage", "Error writing " + file, e);
         }
     }
-
 }
