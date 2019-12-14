@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AlarmActivity"></activity>
+
         <activity android:name=".ImageFragment"
             android:label="화면전환"
             android:theme="@style/AppTheme"></activity>
@@ -23,6 +23,30 @@
         <activity
             android:name=".SearchResult"
             android:label="화면전환"></activity>
+        <activity android:name=".AlarmActivity">
+        </activity>
+
+
+        <activity android:name=".AddReminderActivity"
+            android:label="Add Reminder"
+            android:parentActivityName=".AlarmActivity"
+            android:theme="@style/AppTheme">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AlarmActivity"
+                />
+        </activity>
+
+        <provider
+            android:name=".data.AlarmReminderProvider"
+            android:authorities="com.example.medi"
+            android:exported="false" />
+
+        <service
+            android:name=".reminder.ReminderAlarmService"
+            android:exported="false" />
+
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -32,6 +56,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
 
 </manifest>
