@@ -79,12 +79,21 @@
                     android:background="#3CF1EBF1">
 
                     <EditText
+                        android:id="@+id/editSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="40dp"
                         android:paddingRight="8dp"
-                        android:hint="제품명 또는 제품번호를 입력하세요">
+                        android:hint="제품명을 입력하세요">
                     </EditText>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        android:divider="#999999"
+                        android:dividerHeight="1dp" ></androidx.recyclerview.widget.RecyclerView>
 
                 </RelativeLayout>
 

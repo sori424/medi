@@ -13,23 +13,51 @@ import java.util.List;
 
 public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.ViewHolder> {
 
-    private List<Medicine> mData = null;
+    private List<Medicine> mData;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView1;
+        TextView textname;
+        TextView textnum;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            textView1 = itemView.findViewById(R.id.text1);
+            textname = itemView.findViewById(R.id.text1);
+            textnum = itemView.findViewById(R.id.text1_1);
         }
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
     SimpleTextAdapter(List<Medicine> list) {
-        mData = list;
+
+        if (list!=null){mData = list;}
+        else {
+            List<Medicine> list1 = new ArrayList<>();
+            Medicine med1 = new Medicine();
+            Medicine med2 = new Medicine();
+            Medicine med3 = new Medicine();
+            med1.setCodeNum(646202070);
+            med1.setName("마법의 약");
+            med1.setFunc("과제를 끝내줌");
+            med1.setUse("하루에 1번씩 복용");
+            med1.setCau("힘들다");
+            med2.setCodeNum(123456789);
+            med2.setName("마술의 약");
+            med2.setFunc("에러를 없애줌");
+            med2.setUse("먹고 코드를 짠다");
+            med2.setCau("과부하가 걸릴 수 있다");
+            med3.setCodeNum(234567890);
+            med3.setName("마법사의 약");
+            med3.setFunc("행동이 빨라진다");
+            med3.setUse("필요할 때 1방울");
+            med3.setCau("시간도 빨라진다");
+            list1.add(med1);
+            list1.add(med2);
+            list1.add(med3);
+            mData=list1;
+        }
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -47,8 +75,20 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Vi
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(SimpleTextAdapter.ViewHolder holder, int position) {
-        String text = mData.get(position).name;
-        holder.textView1.setText(text);
+        boolean found = false;
+        Medicine text = mData.get(position);
+        for (int i =0;i<getItemCount();i++){
+            if (text.getCodeNum() == 646202070){
+                holder.textname.setText("<<"+text.getName()+">>"+"\n보험코드: "+text.getCodeNum()+"\n\n효능: "+text.getFunc()+"\n사용법: "+text.getUse()+"\n주의사항: "+text.getCau()+"\n");
+                found = true;
+            }
+            continue;
+        }
+        if (!found){
+            holder.textname.setText("");
+        }
+
+        holder.textnum.setText(Integer.toString(text.getCodeNum()));
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

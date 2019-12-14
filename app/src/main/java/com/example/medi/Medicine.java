@@ -4,7 +4,7 @@ public class Medicine {
     public int codeNum;
     public String name;
     public String func;
-    public String cau;
+    public String cau ;
     public String use;
 
     public int getCodeNum() {
