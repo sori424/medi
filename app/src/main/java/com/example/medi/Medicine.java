@@ -1,13 +1,13 @@
 package com.example.medi;
 
 public class Medicine {
-    public int codeNum;
+    public String codeNum;
     public String name;
     public String func;
     public String cau ;
     public String use;
 
-    public int getCodeNum() {
+    public String getCodeNum() {
         return codeNum;
     }
 
@@ -27,7 +27,7 @@ public class Medicine {
         return use;
     }
 
-    public void setCodeNum(int codeNum) {
+    public void setCodeNum(String codeNum) {
         this.codeNum = codeNum;
     }
 

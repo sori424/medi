@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -48,7 +50,6 @@ import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
 
-    SQLiteDatabase db;
 
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
@@ -64,11 +65,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     };
 
     public List<Medicine> mediList;
-    private RecyclerView recyclerView;
-    private EditText editSearch;
-    private SimpleTextAdapter adapter;
-    private List<Medicine> medicine;
-    private List<Medicine> historyList;
+    public List<Medicine> historyList;
 
     public void setMediList(List<Medicine> mediList) {
         Medicine med1 = new Medicine();
@@ -76,27 +73,27 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         Medicine med3 = new Medicine();
         Medicine med4 = new Medicine();
         Medicine med5 = new Medicine();
-        med1.setCodeNum(646202070);
+        med1.setCodeNum("646202070");
         med1.setName("마법의 약");
         med1.setFunc("과제를 끝내줌");
         med1.setUse("하루에 1번씩 복용");
         med1.setCau("힘들다");
-        med2.setCodeNum(123456789);
+        med2.setCodeNum("123456789");
         med2.setName("마술의 약");
         med2.setFunc("에러를 없애줌");
         med2.setUse("먹고 코드를 짠다");
         med2.setCau("과부하가 걸릴 수 있다");
-        med3.setCodeNum(234567890);
+        med3.setCodeNum("234567890");
         med3.setName("마법사의 약");
         med3.setFunc("행동이 빨라진다");
         med3.setUse("필요할 때 1방울");
         med3.setCau("시간도 빨라진다");
-        med4.setCodeNum(646201050);
+        med4.setCodeNum("646201050");
         med4.setName("종강의 약");
         med4.setFunc("종강시킨다");
         med4.setUse("원샷");
         med4.setCau("학점은 랜덤");
-        med5.setCodeNum(646200690);
+        med5.setCodeNum("646200690");
         med5.setName("종설프의 약");
         med5.setFunc("교수님을 호출한다");
         med5.setUse("먹고 약통을 문지른다");
@@ -157,27 +154,27 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             Medicine med3 = new Medicine();
             Medicine med4 = new Medicine();
             Medicine med5 = new Medicine();
-            med1.setCodeNum(646202070);
+            med1.setCodeNum("646202070");
             med1.setName("마법의 약");
             med1.setFunc("과제를 끝내줌");
             med1.setUse("하루에 1번씩 복용");
             med1.setCau("힘들다");
-            med2.setCodeNum(692000120);
+            med2.setCodeNum("692000120");
             med2.setName("마술의 약");
             med2.setFunc("에러를 없애줌");
             med2.setUse("먹고 코드를 짠다");
             med2.setCau("과부하가 걸릴 수 있다");
-            med3.setCodeNum(643901070);
+            med3.setCodeNum("643901070");
             med3.setName("마법사의 약");
             med3.setFunc("행동이 빨라진다");
             med3.setUse("필요할 때 1방울");
             med3.setCau("시간도 빨라진다");
-            med4.setCodeNum(646201050);
+            med4.setCodeNum("646201050");
             med4.setName("종강의 약");
             med4.setFunc("종강시킨다");
             med4.setUse("원샷");
             med4.setCau("학점은 랜덤");
-            med5.setCodeNum(646200690);
+            med5.setCodeNum("646200690");
             med5.setName("종설프의 약");
             med5.setFunc("교수님을 호출한다");
             med5.setUse("먹고 약통을 문지른다");
@@ -188,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             list1.add(med4);
             list1.add(med5);
             mediList=list1;
+            historyList=list1;
             for (int i = 0; i < mediList.size(); i++) {
                 items[i] = mediList.get(i).getName();
             }
@@ -196,9 +194,9 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         edit.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, items));
 
-
         ButterKnife.bind(this);
         checkPermissions();
+
         // MainActivity에서 AlarmActivity로 화면 넘어가기
         ImageButton btn1 = (ImageButton)findViewById(R.id.alarmButton);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -208,11 +206,34 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                 startActivity(intent);
             }
         });
+
     }
 
     @OnClick(R.id.historyButton)
     void onClickHistoryButton(){
-        this.replaceFragment(new HistoryFragment(this.historyList));
+        mainLayout.setVisibility(View.GONE);
+        fragLayout.setVisibility(View.VISIBLE);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new HistoryFragment(historyList)).addToBackStack(null).commit();
+    }
+
+    @OnClick(R.id.search_button)
+    void onClickSearchButton(){
+        boolean found=false;
+        AutoCompleteTextView edit = findViewById(R.id.autoSearchView);
+        String name = edit.getText().toString();
+        for (int i=0;i<mediList.size();i++){
+            String item = mediList.get(i).getName();
+            if (name.equals(item)){
+                found=true;
+                mainLayout.setVisibility(View.GONE);
+                fragLayout.setVisibility(View.VISIBLE);
+                getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new SearchFragment(item)).addToBackStack(null).commit();
+                break;
+            }
+        }
+        if (!found){
+            Toast.makeText(this, "검색결과가 없습니다.\n 다시 입력해 주세요.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @OnClick(R.id.findButton)

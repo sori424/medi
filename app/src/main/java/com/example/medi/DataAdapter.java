@@ -85,7 +85,7 @@ public class DataAdapter {
                     medi = new Medicine();
 
                     // TODO : Record 기술
-                    medi.setCodeNum(mCur.getInt(0));
+                    medi.setCodeNum(mCur.getString(0));
                     medi.setName(mCur.getString(1));
                     medi.setFunc(mCur.getString(2));
                     medi.setUse(mCur.getString(3));
