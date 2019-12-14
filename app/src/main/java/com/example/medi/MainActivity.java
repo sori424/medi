@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     private MainBackPressCloseHandler mainBackPressCloseHandler ;
 
     String[] PERMISSIONS = {
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
