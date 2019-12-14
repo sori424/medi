@@ -12,8 +12,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,6 +72,17 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         ButterKnife.bind(this);
         checkPermissions();
+
+        // MainActivity에서 AlarmActivity로 화면 넘어가기
+        ImageButton btn1 = (ImageButton)findViewById(R.id.alarmButton);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @OnClick(R.id.findButton)

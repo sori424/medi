@@ -31,8 +31,8 @@
             android:layout_width="match_parent"
             android:id="@+id/reminder_title"
             android:layout_marginLeft="72dp"
-            android:hint="Reminder"
-            android:textSize="25dp"
+            android:hint="알람 이름"
+            android:textSize="30dp"
             android:lines="4"
             android:minLines="4"
             android:gravity="top|left"
@@ -59,9 +59,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
-                android:text="Details"
+                android:text="알람 세부 설정"
                 android:id="@+id/details"
-                android:textSize="30dp"
+                android:textSize="25dp"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="72dp"
                 android:textColor="@color/abc_secondary_text_material_dark"
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="20dp"
                         android:layout_height="wrap_content"
-                        android:text="Date" />
+                        android:text="알람 날짜" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="20dp"
                         android:layout_height="wrap_content"
-                        android:text="Time" />
+                        android:text="알람 시간" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="20dp"
                         android:layout_height="wrap_content"
-                        android:text="Repeat" />
+                        android:text="알람 반복" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="20dp"
                         android:layout_height="wrap_content"
-                        android:text="Repeat Interval" />
+                        android:text="반복 횟수" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -285,7 +285,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="20dp"
                         android:layout_height="wrap_content"
-                        android:text="Repeat Type" />
+                        android:text="반복 단위" />
 
                     <TextView
                         android:layout_width="wrap_content"
