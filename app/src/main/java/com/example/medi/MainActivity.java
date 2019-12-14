@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Stack;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,10 +43,12 @@ import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
 
-    public static Context mContext;
+    SQLiteDatabase db;
 
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
+
+    private MainBackPressCloseHandler mainBackPressCloseHandler ;
 
     String[] PERMISSIONS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -106,10 +110,11 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     FrameLayout imageLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         //setMediList(mediList);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
         //initLoadDB();
 
         editSearch = findViewById(R.id.editSearch);
@@ -135,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 // input창에 문자를 입력할때마다 호출된다.
@@ -151,8 +155,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         ButterKnife.bind(this);
         checkPermissions();
-
-
     }
 
     public void search(String charText) {
@@ -381,5 +383,10 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
                     "\n";
         }
         return result;
+    }
+
+    @Override
+    public void onBackPressed() {
+        mainBackPressCloseHandler.onBackPressed();
     }
 }

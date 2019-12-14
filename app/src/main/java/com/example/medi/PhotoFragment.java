@@ -46,7 +46,6 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
     boolean previewing = false;
     Context context;
 
-
     @BindView(R.id.preview_layout)
     LinearLayout previewLayout;
 
@@ -60,8 +59,10 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
 
     Camera.Size previewSizeOptimal;
 
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Bitmap bitmap);
+
     }
 
     @Override
@@ -70,6 +71,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
         this.setRetainInstance(true);
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,11 +98,12 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
                 }
             }
         });
-
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -117,6 +120,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
 
     @Override
     public void onDetach() {
@@ -362,5 +366,4 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback {
             Log.w("ExternalStorage", "Error writing " + file, e);
         }
     }
-
 }

@@ -3,36 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImageFragment">
+    tools:context=".ImageFragment"
+    android:background="#7d9abd">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
+
         <EditText
             android:id="@+id/res_photo_txt"
-            android:textColor="#FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textColor="#000000"
+            android:backgroundTint="#000000"/>
 
         <ImageView
             android:id="@+id/res_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:src="@drawable/ic_launcher_background"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"/>
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/camera_preview_surface"
-            android:layout_alignRight="@id/camera_preview_surface"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="30dp"
+            android:layout_gravity="center"
             android:text="search"
             android:textSize="20sp"
             android:background="@drawable/photo_button" />
