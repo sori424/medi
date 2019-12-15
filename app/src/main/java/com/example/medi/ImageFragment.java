@@ -56,7 +56,7 @@ import butterknife.OnClick;
 import static android.content.ContentValues.TAG;
 
 
-public class ImageFragment extends Fragment {
+public class ImageFragment extends Fragment implements View.OnClickListener {
 
     private static final String CLOUD_VISION_API_KEY = "AIzaSyBnCoP_1U56eHh2-1tM_-x42Lz4XD3xHkE";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
@@ -98,11 +98,12 @@ public class ImageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.setRetainInstance(true);
         checkPermissions();
+
     }
 
+    // 사진을 보여줌
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_image, container, false);
 
@@ -117,7 +118,6 @@ public class ImageFragment extends Fragment {
                     Log.d(TAG, e.getMessage());
                 }
             }
-
         }
         return view;
     }
@@ -206,6 +206,7 @@ public class ImageFragment extends Fragment {
 
             protected void onPostExecute(String result) {
                 resPhotoText.setText(result);
+
             }
 
         }.execute();
@@ -234,8 +235,8 @@ public class ImageFragment extends Fragment {
 //        }
 //    }
 
-    public void mOnClick(View v){
-
+    @Override
+    public void onClick(View v){
         switch( v.getId() ){
             case R.id.search_button:
             Log.i("TAG","onclick success");
@@ -245,7 +246,6 @@ public class ImageFragment extends Fragment {
 
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
                     data= getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
 
                     //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
@@ -274,7 +274,7 @@ public class ImageFragment extends Fragment {
         String queryUrl = "http://apis.data.go.kr/B551182/msupCmpnMeftInfoService/getMajorCmpnNmCdList?ServiceKey="+key
                 +"&numOfRows=10&pageNo=1&gnlNmCd="+code;
 
-
+    //code : 100101AGN
         try {
             URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
             InputStream is= url.openStream(); //url위치로 입력스트림 연결
