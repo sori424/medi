@@ -11,10 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -22,6 +26,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Stack;
 
 import butterknife.BindView;
@@ -33,7 +44,6 @@ import static android.content.ContentValues.TAG;
 public class MainActivity extends AppCompatActivity implements PhotoFragment.OnFragmentInteractionListener {
 
     SQLiteDatabase db;
-
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
 
@@ -72,6 +82,16 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
         ButterKnife.bind(this);
         checkPermissions();
+
+        // MainActivity에서 AlarmActivity로 화면 넘어가기
+        ImageButton btn1 = (ImageButton)findViewById(R.id.alarmButton);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @OnClick(R.id.findButton)
@@ -131,127 +151,128 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     }
 
 
-    void DBInsert(String tableName, String medName, Integer medID, String medFunc, String medHow, String medCau) {
-        Log.d(TAG, "Insert Data " + medName);
+//    void DBInsert(String tableName, String medName, Integer medID, String medFunc, String medHow, String medCau) {
+//        Log.d(TAG, "Insert Data " + medName);
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("보험코드", medID);
+//        contentValues.put("의약품명", medName);
+//        contentValues.put("효과", medFunc);
+//        contentValues.put("사용법", medHow);
+//        contentValues.put("주의사항", medCau);
+//
+//        // 리턴값: 생성된 데이터의 id
+//        long id = db.insert(tableName, null, contentValues);
+//
+//        Log.d(TAG, "id: " + id);
+//    }
+//
+//    void DBDelete(String tableName, String medName) {
+//        Log.d(TAG, "Delete Data " + medName);
+//
+//        String nameArr[] = {medName};
+//
+//        // 리턴값: 삭제한 수
+//        int n = db.delete(tableName, "의약품명 = ?", nameArr);
+//
+//        Log.d(TAG, "n: " + n);
+//    }
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("보험코드", medID);
-        contentValues.put("의약품명", medName);
-        contentValues.put("효과", medFunc);
-        contentValues.put("사용법", medHow);
-        contentValues.put("주의사항", medCau);
+//    // "SELECT * FROM MEDICINE"
+//    void DBSearch(String tableName) {
+//        Cursor cursor = null;
+//
+//        try {
+//            cursor = db.query(tableName, null, null, null, null, null, null);
+//            if (cursor != null) {
+//                while (cursor.moveToNext()) {
+//                    String id = cursor.getString(cursor.getColumnIndex("보험코드"));
+//                    String name = cursor.getString(cursor.getColumnIndex("의약품명"));
+//                    String func = cursor.getString(cursor.getColumnIndex("효과"));
+//                    String how = cursor.getString(cursor.getColumnIndex("사용법"));
+//                    String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
+//
+//                    Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
+//                    getResult(cursor);
+//                }
+//            }
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//        }
+//    }
 
-        // 리턴값: 생성된 데이터의 id
-        long id = db.insert(tableName, null, contentValues);
 
-        Log.d(TAG, "id: " + id);
-    }
-
-    void DBDelete(String tableName, String medName) {
-        Log.d(TAG, "Delete Data " + medName);
-
-        String nameArr[] = {medName};
-
-        // 리턴값: 삭제한 수
-        int n = db.delete(tableName, "의약품명 = ?", nameArr);
-
-        Log.d(TAG, "n: " + n);
-    }
-
-    // "SELECT * FROM MEDICINE"
-    void DBSearch(String tableName) {
-        Cursor cursor = null;
-
-        try {
-            cursor = db.query(tableName, null, null, null, null, null, null);
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    String id = cursor.getString(cursor.getColumnIndex("보험코드"));
-                    String name = cursor.getString(cursor.getColumnIndex("의약품명"));
-                    String func = cursor.getString(cursor.getColumnIndex("효과"));
-                    String how = cursor.getString(cursor.getColumnIndex("사용법"));
-                    String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
-
-                    Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
-                    getResult(cursor);
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    @OnClick(R.id.search_button)
-    void searchClick(View v){
-        Intent intent = new Intent(MainActivity.this, SearchResult.class);
-        startActivity(intent);
-    }
-
-    void DBSearch(String tableName, int MEDID) {        // Search by scanner
-
-        Cursor cursor = null;
-
-        try {
-            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{String.valueOf(MEDID)}, null, null, null);
-
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    String id = cursor.getString(cursor.getColumnIndex("보험코드"));
-                    String name = cursor.getString(cursor.getColumnIndex("의약품명"));
-                    String func = cursor.getString(cursor.getColumnIndex("효과"));
-                    String how = cursor.getString(cursor.getColumnIndex("사용법"));
-                    String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
-
-                    Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
-                    getResult(cursor);
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    void DBSearch(String tableName, String MEDNAME) {       // Search by toolbar
-        Cursor cursor = null;
-
-        try {
-            cursor = db.query(tableName, null, "MEDNAME" + " LIKE ?", new String[]{"%" + MEDNAME + "%"}, null, null, "MEDNAME");
-
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    String id = cursor.getString(cursor.getColumnIndex("보험코드"));
-                    String name = cursor.getString(cursor.getColumnIndex("의약품명"));
-                    String func = cursor.getString(cursor.getColumnIndex("효과"));
-                    String how = cursor.getString(cursor.getColumnIndex("사용법"));
-                    String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
-
-                    Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
-                    getResult(cursor);
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    public String getResult(Cursor cursor){
-        String result="";
-        while (cursor.moveToNext()){
-            result+=cursor.getString(0)+":"
-                    +cursor.getString(1)+"|"
-                    +cursor.getString(2)+"|"
-                    +cursor.getString(3)+"|"
-                    +cursor.getString(4)+
-                    "\n";
-        }
-        return result;
-    }
+//    @OnClick(R.id.search_button)
+//    void searchClick(View v){
+//        Intent intent = new Intent(MainActivity.this, SearchResult.class);
+//        startActivity(intent);
+//    }
+//
+//    void DBSearch(String tableName, int MEDID) {        // Search by scanner
+//
+//        Cursor cursor = null;
+//
+//        try {
+//            cursor = db.query(tableName, null, "MEDID" + " = ?", new String[]{String.valueOf(MEDID)}, null, null, null);
+//
+//            if (cursor != null) {
+//                while (cursor.moveToNext()) {
+//                    String id = cursor.getString(cursor.getColumnIndex("보험코드"));
+//                    String name = cursor.getString(cursor.getColumnIndex("의약품명"));
+//                    String func = cursor.getString(cursor.getColumnIndex("효과"));
+//                    String how = cursor.getString(cursor.getColumnIndex("사용법"));
+//                    String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
+//
+//                    Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
+//                    getResult(cursor);
+//                }
+//            }
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//        }
+//    }
+//
+//    void DBSearch(String tableName, String MEDNAME) {       // Search by toolbar
+//        Cursor cursor = null;
+//
+//        try {
+//            cursor = db.query(tableName, null, "MEDNAME" + " LIKE ?", new String[]{"%" + MEDNAME + "%"}, null, null, "MEDNAME");
+//
+//            if (cursor != null) {
+//                while (cursor.moveToNext()) {
+//                    String id = cursor.getString(cursor.getColumnIndex("보험코드"));
+//                    String name = cursor.getString(cursor.getColumnIndex("의약품명"));
+//                    String func = cursor.getString(cursor.getColumnIndex("효과"));
+//                    String how = cursor.getString(cursor.getColumnIndex("사용법"));
+//                    String cau = cursor.getString(cursor.getColumnIndex("주의사항"));
+//
+//                    Log.d(TAG, "id: " + id + ", name: " + name + ", function: " + func + ", method: " + how + ", caution: " + cau);
+//                    getResult(cursor);
+//                }
+//            }
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//        }
+//    }
+//
+//    public String getResult(Cursor cursor){
+//        String result="";
+//        while (cursor.moveToNext()){
+//            result+=cursor.getString(0)+":"
+//                    +cursor.getString(1)+"|"
+//                    +cursor.getString(2)+"|"
+//                    +cursor.getString(3)+"|"
+//                    +cursor.getString(4)+
+//                    "\n";
+//        }
+//        return result;
+//    }
 
     @Override
     public void onBackPressed() {
