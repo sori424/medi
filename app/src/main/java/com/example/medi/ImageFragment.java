@@ -275,6 +275,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 +"&numOfRows=10&pageNo=1&gnlNmCd="+code;
 
     //code : 100101AGN
+        // 보험코드 찾을 수가 없어서 일반명 코드로 바꿈..
         try {
             URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
             InputStream is= url.openStream(); //url위치로 입력스트림 연결
