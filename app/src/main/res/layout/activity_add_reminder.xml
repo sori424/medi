@@ -241,7 +241,7 @@
                         android:layout_width="wrap_content"
                         android:textSize="20dp"
                         android:layout_height="wrap_content"
-                        android:text="반복 횟수" />
+                        android:text="반복 간격" />
 
                     <TextView
                         android:layout_width="wrap_content"

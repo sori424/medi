@@ -329,7 +329,7 @@ public class AddReminderActivity extends AppCompatActivity implements
     // On clicking repeat interval button
     public void setRepeatNo(View v){
         AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
-        alert.setTitle("횟수를 입력하세요");
+        alert.setTitle("간격을 입력하세요");
 
         // Create EditText box to input repeat number
         final EditText input = new EditText(this);
