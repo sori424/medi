@@ -65,6 +65,8 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
     String key = "QmrYeGvEgMdF16p%2BmzZxs%2FsLedKbnltlEJsbJ17SqI14N%2B6fM3pg2J94ktIZYXtFk3oxlTjxrAW7pKbE1aXZwQ%3D%3D";
     String data;
+    Medicine medicine;
+    List<Medicine> medList;
 
     String[] PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
@@ -244,6 +246,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                             public void run() {
                                 // TODO Auto-generated method stub
                                 resultView.setText(data); //TextView에 문자열  data 출력
+
                             }
                         });
                     }
@@ -350,6 +353,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                 }
 
                 eventType= xpp.next();
+
             }
 
         } catch (Exception e) {
@@ -357,6 +361,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         }
 
         buffer.append("\n");
+
         return buffer.toString();//StringBuffer 문자열 객체 반환
 
     }//getXmlData method....
