@@ -23,6 +23,10 @@
         <activity android:name=".AlarmActivity">
         </activity>
 
+        <activity android:name=".HistoryActivity"
+            android:label="history activity"
+            android:theme="@style/AppTheme">
+        </activity>
 
         <activity android:name=".AddReminderActivity"
             android:label="Add Reminder"

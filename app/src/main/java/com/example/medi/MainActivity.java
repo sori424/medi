@@ -54,6 +54,16 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
 
+    private HistoryAdapter historyAdapter;
+    private List<Medicine> medList = new ArrayList<>();
+
+    private DatabaseHelper db;
+
+   // final static String dbName = "history.db";
+   // final static int dbVersion = 2;
+
+
+
     private MainBackPressCloseHandler mainBackPressCloseHandler ;
 
     String[] PERMISSIONS = {
@@ -64,60 +74,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             Manifest.permission.CAMERA
     };
 
-    public List<Medicine> mediList;
-    public List<Medicine> historyList;
-
-    public void setMediList(List<Medicine> mediList) {
-        Medicine med1 = new Medicine();
-        Medicine med2 = new Medicine();
-        Medicine med3 = new Medicine();
-        Medicine med4 = new Medicine();
-        Medicine med5 = new Medicine();
-        med1.setCodeNum("646202070");
-        med1.setName("마법의 약");
-        med1.setFunc("과제를 끝내줌");
-        med1.setUse("하루에 1번씩 복용");
-        med1.setCau("힘들다");
-        med2.setCodeNum("123456789");
-        med2.setName("마술의 약");
-        med2.setFunc("에러를 없애줌");
-        med2.setUse("먹고 코드를 짠다");
-        med2.setCau("과부하가 걸릴 수 있다");
-        med3.setCodeNum("234567890");
-        med3.setName("마법사의 약");
-        med3.setFunc("행동이 빨라진다");
-        med3.setUse("필요할 때 1방울");
-        med3.setCau("시간도 빨라진다");
-        med4.setCodeNum("646201050");
-        med4.setName("종강의 약");
-        med4.setFunc("종강시킨다");
-        med4.setUse("원샷");
-        med4.setCau("학점은 랜덤");
-        med5.setCodeNum("646200690");
-        med5.setName("종설프의 약");
-        med5.setFunc("교수님을 호출한다");
-        med5.setUse("먹고 약통을 문지른다");
-        med5.setCau("혼날 수 있다");
-        mediList.add(med1);
-        mediList.add(med2);
-        mediList.add(med3);
-        mediList.add(med4);
-        mediList.add(med5);
-    }
-
-
-    private void initLoadDB(){
-
-        DataAdapter mDbHelper = new DataAdapter(getApplicationContext());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
-
-        // db에 있는 값들을 model을 적용해서 넣는다.
-        mediList = mDbHelper.getTableData();
-
-        // db 닫기
-        mDbHelper.close();
-    }
 
     @BindView(R.id.mainContainer)
     RelativeLayout mainLayout;
@@ -134,65 +90,9 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
-        //initLoadDB();
-
-        historyList = new ArrayList<Medicine>();
-        mediList = new ArrayList<Medicine>();
-        setMediList(mediList);
 
         AutoCompleteTextView edit = findViewById(R.id.autoSearchView);
 
-        String[] items= new String[5];
-        if (mediList.size() != 0) {
-            for (int i = 0; i < mediList.size(); i++) {
-                items[i] = mediList.get(i).getName();
-            }
-        } else {
-            List<Medicine> list1 = new ArrayList<>();
-            Medicine med1 = new Medicine();
-            Medicine med2 = new Medicine();
-            Medicine med3 = new Medicine();
-            Medicine med4 = new Medicine();
-            Medicine med5 = new Medicine();
-            med1.setCodeNum("646202070");
-            med1.setName("마법의 약");
-            med1.setFunc("과제를 끝내줌");
-            med1.setUse("하루에 1번씩 복용");
-            med1.setCau("힘들다");
-            med2.setCodeNum("692000120");
-            med2.setName("마술의 약");
-            med2.setFunc("에러를 없애줌");
-            med2.setUse("먹고 코드를 짠다");
-            med2.setCau("과부하가 걸릴 수 있다");
-            med3.setCodeNum("643901070");
-            med3.setName("마법사의 약");
-            med3.setFunc("행동이 빨라진다");
-            med3.setUse("필요할 때 1방울");
-            med3.setCau("시간도 빨라진다");
-            med4.setCodeNum("646201050");
-            med4.setName("종강의 약");
-            med4.setFunc("종강시킨다");
-            med4.setUse("원샷");
-            med4.setCau("학점은 랜덤");
-            med5.setCodeNum("646200690");
-            med5.setName("종설프의 약");
-            med5.setFunc("교수님을 호출한다");
-            med5.setUse("먹고 약통을 문지른다");
-            med5.setCau("혼날 수 있다");
-            list1.add(med1);
-            list1.add(med2);
-            list1.add(med3);
-            list1.add(med4);
-            list1.add(med5);
-            mediList=list1;
-            historyList=list1;
-            for (int i = 0; i < mediList.size(); i++) {
-                items[i] = mediList.get(i).getName();
-            }
-        }
-
-        edit.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, items));
 
         ButterKnife.bind(this);
         checkPermissions();
@@ -207,34 +107,39 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             }
         });
 
-    }
-
-    @OnClick(R.id.historyButton)
-    void onClickHistoryButton(){
-        mainLayout.setVisibility(View.GONE);
-        fragLayout.setVisibility(View.VISIBLE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new HistoryFragment(historyList)).addToBackStack(null).commit();
-    }
-
-    @OnClick(R.id.search_button)
-    void onClickSearchButton(){
-        boolean found=false;
-        AutoCompleteTextView edit = findViewById(R.id.autoSearchView);
-        String name = edit.getText().toString();
-        for (int i=0;i<mediList.size();i++){
-            String item = mediList.get(i).getName();
-            if (name.equals(item)){
-                found=true;
-                mainLayout.setVisibility(View.GONE);
-                fragLayout.setVisibility(View.VISIBLE);
-                getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new SearchFragment(item)).addToBackStack(null).commit();
-                break;
+        ImageButton btn2 = (ImageButton)findViewById(R.id.historyButton);
+        btn2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(intent);
             }
-        }
-        if (!found){
-            Toast.makeText(this, "검색결과가 없습니다.\n 다시 입력해 주세요.", Toast.LENGTH_LONG).show();
-        }
+
+        });
+
     }
+
+    // TODO : xml parsing 결과 집어넣기
+
+//    @OnClick(R.id.search_button)
+//    void onClickSearchButton(){
+//        boolean found=false;
+//        AutoCompleteTextView edit = findViewById(R.id.autoSearchView);
+//        String name = edit.getText().toString();
+//        for (int i=0;i<mediList.size();i++){
+//            String item = mediList.get(i).getName();
+//            if (name.equals(item)){
+//                found=true;
+//                mainLayout.setVisibility(View.GONE);
+//                fragLayout.setVisibility(View.VISIBLE);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new SearchFragment(item)).addToBackStack(null).commit();
+//                break;
+//            }
+//        }
+//        if (!found){
+//            Toast.makeText(this, "검색결과가 없습니다.\n 다시 입력해 주세요.", Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     @OnClick(R.id.findButton)
     void onClickScanButton(){
@@ -296,4 +201,6 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     public void onBackPressed() {
         mainBackPressCloseHandler.onBackPressed();
     }
+
+
 }

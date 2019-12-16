@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,8 +37,14 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,13 +55,16 @@ import butterknife.OnClick;
 import static android.content.ContentValues.TAG;
 
 
-public class ImageFragment extends Fragment {
+public class ImageFragment extends Fragment implements View.OnClickListener {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyBnCoP_1U56eHh2-1tM_-x42Lz4XD3xHkE";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
     private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
 
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
+
+    String key = "QmrYeGvEgMdF16p%2BmzZxs%2FsLedKbnltlEJsbJ17SqI14N%2B6fM3pg2J94ktIZYXtFk3oxlTjxrAW7pKbE1aXZwQ%3D%3D";
+    String data;
 
     String[] PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
@@ -71,6 +81,9 @@ public class ImageFragment extends Fragment {
 
     @BindView(R.id.res_photo_txt)
     EditText resPhotoText;
+
+    @BindView(R.id.result_view)
+    TextView resultView;
 
     public void imageSetupFragment(Bitmap bitmap) {
         if (bitmap != null) {
@@ -92,6 +105,10 @@ public class ImageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         ButterKnife.bind(this, view);
         //check if bitmap exist, set to ImageView
+
+        Button b = (Button) view.findViewById(R.id.search_button);
+        b.setOnClickListener(this);
+
         if (bitmap != null) {
             if(flagPermissions){
                 try{
@@ -189,6 +206,7 @@ public class ImageFragment extends Fragment {
             }
 
             protected void onPostExecute(String result) {
+
                 resPhotoText.setText(result);
             }
         }.execute();
@@ -206,16 +224,142 @@ public class ImageFragment extends Fragment {
     }
     // editText 값가져와서 DB 에 검색할 것 : String number = resPhotoText.getText().toString();
 
-    @OnClick(R.id.search_button)
-    void onClickSearchButton(){
-        String number = resPhotoText.getText().toString();
-        Log.d(TAG,""+number.length());
-        MainActivity mainActivity = (MainActivity)getActivity();
-        if (number.equals("아무 글자도 인식되지 않았습니다") | number.length()==0) {
-            Toast.makeText(getActivity(),"숫자가 인식되지 않았습니다.\n 입력창에 직접 넣어 주세요.",Toast.LENGTH_LONG).show();
-        } else {
-            //mainActivity.DBSearch_scanner(Integer.parseInt(number.replaceAll("[^0-9]","")));
-            mainActivity.replaceFragment(new SearchFragment(number));
+    @Override
+    public void onClick(View v){
+        switch( v.getId() ){
+            case R.id.search_button:
+                Log.i("TAG","onclick success");
+
+                //Android 4.0 이상 부터는 네트워크를 이용할 때 반드시 Thread 사용해야 함
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        data= getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
+
+                        //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
+                        //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                resultView.setText(data); //TextView에 문자열  data 출력
+                            }
+                        });
+                    }
+                }).start();
+
+                break;
         }
-    }
+    }//OnClick method..
+
+
+    String getXmlData(){
+
+        StringBuffer buffer=new StringBuffer();
+        String code  = resPhotoText.getText().toString();//EditText에 작성된 Text얻어오기
+
+        //String location = URLEncoder.encode(String);//한글의 경우 인식이 안되기에 utf-8 방식으로 encoding..
+        String queryUrl = "http://apis.data.go.kr/B551182/msupCmpnMeftInfoService/getMajorCmpnNmCdList?ServiceKey="+key
+                +"&numOfRows=10&pageNo=1&gnlNmCd="+code;
+
+        //code : 100101AGN
+        // 보험코드 찾을 수가 없어서 일반명 코드로 바꿈..
+        try {
+            URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
+            InputStream is= url.openStream(); //url위치로 입력스트림 연결
+
+            XmlPullParserFactory factory= XmlPullParserFactory.newInstance();
+            XmlPullParser xpp= factory.newPullParser();
+            xpp.setInput( new InputStreamReader(is, "UTF-8") ); //inputstream 으로부터 xml 입력받기
+
+            String tag;
+
+            xpp.next();
+            int eventType= xpp.getEventType();
+
+            while( eventType != XmlPullParser.END_DOCUMENT ){
+                switch( eventType ){
+                    case XmlPullParser.START_DOCUMENT:
+                        buffer.append("파싱 시작...\n\n");
+                        break;
+
+                    case XmlPullParser.START_TAG:
+                        tag= xpp.getName();//테그 이름 얻어오기
+
+                        if(tag.equals("item")) ;// 첫번째 검색결과
+                        else if(tag.equals("divNm")){
+                            buffer.append("분류명 : ");
+                            xpp.next();
+                            buffer.append(xpp.getText());//title 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("fomnTpNm")){
+                            buffer.append("제형구분명 : ");
+                            xpp.next();
+                            buffer.append(xpp.getText());//category 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("gnlNm")){
+                            buffer.append("일반명 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//description 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("gnlNmCd")){
+                            buffer.append("일반명 코드 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//telephone 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("injcPthNm")){
+                            buffer.append("투여 경로명 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//address 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("iqtyTxt")){
+                            buffer.append("함량 내용 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//mapx 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("meftDivNo")){
+                            buffer.append("약효분류번호 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//mapy 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("unit")){
+                            buffer.append("단위 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//mapy 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+
+                        break;
+
+                    case XmlPullParser.TEXT:
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        tag= xpp.getName(); //테그 이름 얻어오기
+
+                        if(tag.equals("item")) buffer.append("\n");// 첫번째 검색결과종료..줄바꿈
+                        break;
+                }
+
+                eventType= xpp.next();
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch blocke.printStackTrace();
+        }
+
+        buffer.append("\n");
+        return buffer.toString();//StringBuffer 문자열 객체 반환
+
+    }//getXmlData method....
+
+
 }
