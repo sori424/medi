@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment {
         TextView resultcontent = v.findViewById(R.id.searchresult);
 
         context = getContext();
-        Button button2 = (Button)v.findViewById(R.id.cancel_button);
+        Button button2 = (Button)v.findViewById(R.id.back_button);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
