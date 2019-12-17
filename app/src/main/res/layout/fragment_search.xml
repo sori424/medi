@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,5 +23,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/searchresult"
         android:textSize="15sp"/>
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cancel"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:background="@drawable/photo_button"/>
+
+
+
 
 </LinearLayout>

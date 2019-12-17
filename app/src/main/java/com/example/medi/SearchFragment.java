@@ -1,6 +1,7 @@
 package com.example.medi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class SearchFragment extends Fragment {
     MainActivity mainActivity = (MainActivity)getActivity();
     String item;
     List<Medicine> medi;
+    Context context;
 
     public SearchFragment(String item) {
         this.item = item;
@@ -43,6 +46,19 @@ public class SearchFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         TextView resulttitle = v.findViewById(R.id.searchtitle);
         TextView resultcontent = v.findViewById(R.id.searchresult);
+
+        context = getContext();
+        Button button2 = (Button)v.findViewById(R.id.cancel_button);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
         boolean found =false;
         if (medi!= null) {
             for (i = 0; i < 5; i++) {

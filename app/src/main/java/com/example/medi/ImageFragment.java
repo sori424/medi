@@ -2,6 +2,7 @@ package com.example.medi;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +63,7 @@ public class ImageFragment extends Fragment{
 
     int PERMISSION_ALL = 1;
     boolean flagPermissions = false;
+    Context context;
 
     String key = "QmrYeGvEgMdF16p%2BmzZxs%2FsLedKbnltlEJsbJ17SqI14N%2B6fM3pg2J94ktIZYXtFk3oxlTjxrAW7pKbE1aXZwQ%3D%3D";
     String data;
@@ -83,8 +86,6 @@ public class ImageFragment extends Fragment{
     @BindView(R.id.res_photo_txt)
     EditText resPhotoText;
 
-    @BindView(R.id.result_view)
-    TextView resultView;
 
     public void imageSetupFragment(Bitmap bitmap) {
         if (bitmap != null) {
@@ -105,6 +106,20 @@ public class ImageFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         ButterKnife.bind(this, view);
+        context = getContext();
+
+
+        Button button2 = (Button)view.findViewById(R.id.cancel_button);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
         //check if bitmap exist, set to ImageView
         if (bitmap != null) {
             if(flagPermissions){
