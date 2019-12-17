@@ -19,6 +19,8 @@ import java.util.List;
 
 import butterknife.OnClick;
 
+import static com.example.medi.MainActivity.mDbOpenHelper;
+
 public class SearchFragment extends Fragment {
 
     int i=0;
@@ -113,16 +115,14 @@ public class SearchFragment extends Fragment {
         if (found) {
             resulttitle.setText("<<" + medi.get(i).getName() + ">>");
             resultcontent.setText("보험코드: " + medi.get(i).getCodeNum() + "\n\n효능: " + medi.get(i).getFunc() + "\n사용법: " + medi.get(i).getUse() + "\n주의사항: " + medi.get(i).getCau() + "\n");
+
+            mDbOpenHelper.insertColumn(medi.get(i).getCodeNum(),medi.get(i).getName(),medi.get(i).getFunc(),medi.get(i).getUse(),medi.get(i).getCau());
+            Toast.makeText(getActivity(),"History에 저장되었습니다. 저장된 값: "+mDbOpenHelper.selectColumns().getCount(),Toast.LENGTH_LONG).show();
+
         } else {
             resulttitle.setText("검색 결과가 없습니다.");
             resultcontent.setText("뒤로 가기 버튼을 두 번 눌러\n앱을 종료하세요.");
         }
         return v;
-    }
-
-    @OnClick(R.id.addButton)
-    void onClickaddButton(){
-        Toast.makeText(getActivity(),"History에 저장되었습니다.",Toast.LENGTH_LONG).show();
-        mainActivity.historyList.add(medi.get(i));
     }
 }

@@ -65,59 +65,8 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
     };
 
     public List<Medicine> mediList;
-    public List<Medicine> historyList;
-
-    public void setMediList(List<Medicine> mediList) {
-        Medicine med1 = new Medicine();
-        Medicine med2 = new Medicine();
-        Medicine med3 = new Medicine();
-        Medicine med4 = new Medicine();
-        Medicine med5 = new Medicine();
-        med1.setCodeNum("646202070");
-        med1.setName("마법의 약");
-        med1.setFunc("과제를 끝내줌");
-        med1.setUse("하루에 1번씩 복용");
-        med1.setCau("힘들다");
-        med2.setCodeNum("123456789");
-        med2.setName("마술의 약");
-        med2.setFunc("에러를 없애줌");
-        med2.setUse("먹고 코드를 짠다");
-        med2.setCau("과부하가 걸릴 수 있다");
-        med3.setCodeNum("234567890");
-        med3.setName("마법사의 약");
-        med3.setFunc("행동이 빨라진다");
-        med3.setUse("필요할 때 1방울");
-        med3.setCau("시간도 빨라진다");
-        med4.setCodeNum("646201050");
-        med4.setName("종강의 약");
-        med4.setFunc("종강시킨다");
-        med4.setUse("원샷");
-        med4.setCau("학점은 랜덤");
-        med5.setCodeNum("646200690");
-        med5.setName("종설프의 약");
-        med5.setFunc("교수님을 호출한다");
-        med5.setUse("먹고 약통을 문지른다");
-        med5.setCau("혼날 수 있다");
-        mediList.add(med1);
-        mediList.add(med2);
-        mediList.add(med3);
-        mediList.add(med4);
-        mediList.add(med5);
-    }
-
-
-    private void initLoadDB(){
-
-        DataAdapter mDbHelper = new DataAdapter(getApplicationContext());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
-
-        // db에 있는 값들을 model을 적용해서 넣는다.
-        mediList = mDbHelper.getTableData();
-
-        // db 닫기
-        mDbHelper.close();
-    }
+    public List<Medicine> historyList = new ArrayList<Medicine>();
+    public static DbOpenHelper mDbOpenHelper;
 
     @BindView(R.id.mainContainer)
     RelativeLayout mainLayout;
@@ -134,11 +83,14 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
-        //initLoadDB();
 
-        historyList = new ArrayList<Medicine>();
+        mDbOpenHelper = new DbOpenHelper(this);
+
+        mDbOpenHelper.open();
+        mDbOpenHelper.create();
+
         mediList = new ArrayList<Medicine>();
-        setMediList(mediList);
+        /*setMediList(mediList);*/
 
         AutoCompleteTextView edit = findViewById(R.id.autoSearchView);
 
@@ -154,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             Medicine med3 = new Medicine();
             Medicine med4 = new Medicine();
             Medicine med5 = new Medicine();
-            med1.setCodeNum("646202070");
-            med1.setName("마법의 약");
+            med1.setCodeNum("107601ATB");
+            med1.setName("amlodipine besylate");
             med1.setFunc("과제를 끝내줌");
             med1.setUse("하루에 1번씩 복용");
             med1.setCau("힘들다");
@@ -185,14 +137,16 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
             list1.add(med4);
             list1.add(med5);
             mediList=list1;
-            historyList=list1;
             for (int i = 0; i < mediList.size(); i++) {
-                items[i] = mediList.get(i).getName();
+                items[i] = mediList.get(i).getCodeNum();
             }
         }
 
+
         edit.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, items));
+
+
 
         ButterKnife.bind(this);
         checkPermissions();
@@ -209,11 +163,47 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
 
     }
 
+    List<Medicine> changeHistory(DbOpenHelper mDbOpenHelper){
+
+        historyList.clear();
+        Cursor cursor = null;
+        int i =0;
+
+        try {
+            cursor = mDbOpenHelper.selectColumns();
+            for (int j = 0; j<cursor.getCount();j++){
+                Medicine medi = new Medicine();
+                historyList.add(medi);
+            }
+
+            for (cursor.moveToFirst(), i= 0; !cursor.isAfterLast() && i<cursor.getCount(); cursor.moveToNext(),i++){
+                historyList.get(i).setCodeNum(cursor.getString(0));
+                historyList.get(i).setName(cursor.getString(1));
+                historyList.get(i).setFunc(cursor.getString(2));
+                historyList.get(i).setUse(cursor.getString(3));
+                historyList.get(i).setCau(cursor.getString(4));
+            }
+        } finally {
+            if (cursor != null){
+                cursor.close();
+            }
+        }
+        return historyList;
+    }
+
     @OnClick(R.id.historyButton)
     void onClickHistoryButton(){
-        mainLayout.setVisibility(View.GONE);
-        fragLayout.setVisibility(View.VISIBLE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new HistoryFragment(historyList)).addToBackStack(null).commit();
+
+        changeHistory(mDbOpenHelper);
+
+        if (historyList.size() != 0) {
+
+            mainLayout.setVisibility(View.GONE);
+            fragLayout.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_frag, new HistoryFragment(historyList)).addToBackStack(null).commit();
+        } else {
+            Toast.makeText(this, "히스토리가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @OnClick(R.id.search_button)
@@ -290,6 +280,24 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.layout_image_frag, fragment).commit();
+    }
+
+    Medicine DBSearch(String tableName, String MEDID) {        // Search by scanner
+        boolean found = false;
+        int i;
+
+        for (i = 0; i < mediList.size(); i++) {
+            if (MEDID == mediList.get(i).codeNum) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            return mediList.get(i);
+        } else {
+            return null;
+        }
     }
 
     @Override

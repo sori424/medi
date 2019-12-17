@@ -13,17 +13,6 @@
         android:id="@+id/searchtitle"
         android:textSize="25sp"/>
 
-    <ImageButton
-        android:id="@+id/addButton"
-        android:clickable="true"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="right"
-        android:background="@null"
-        android:src="@drawable/starshine"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

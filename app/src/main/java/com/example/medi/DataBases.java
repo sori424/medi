@@ -18,4 +18,5 @@ public class DataBases {
                 +use+" TEXT NOT NULL , " +cau+" TEXT NOT NULL"+
                 ")";
     }
+
 }
