@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements PhotoFragment.OnF
         mDbOpenHelper = new DbOpenHelper(this);
 
         mDbOpenHelper.open();
-        mDbOpenHelper.create();
+        mDbOpenHelper.create(false); // true로 바꾸고 돌려 초기화, false로 재구동
 
         mediList = new ArrayList<Medicine>();
         /*setMediList(mediList);*/

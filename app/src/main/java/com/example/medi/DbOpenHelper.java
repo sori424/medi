@@ -48,8 +48,10 @@ public class DbOpenHelper{
         return this;
     }
 
-    public void create(){
-        mDBHelper.onUpgrade(mDB, 1,1);
+    public void create(boolean upgrade){
+
+        if (upgrade = true){mDBHelper.onUpgrade(mDB, 1,1);}
+        else {mDBHelper.onCreate(mDB);}
     }
 
     public void close(){
