@@ -7,7 +7,6 @@ Creating Medicine App with Android Studio in undergraduate project for lecture I
 This app designed with android studio (language: Java) to make users easily find information of the medicine they take. 
 Crop the image area with medicine number which is surrounded by red block. And then using Google cloud vision API to get numbers from cropped image area. 
 In addition, our team included alarm function to alert users to take medicine at the right time. 
-Here's the <a href="https://github.com/letsgititdana/medi">Github</a> for the implemented code.
 
 
 <div class="row">
