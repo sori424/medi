@@ -10,12 +10,12 @@ In addition, our team included alarm function to alert users to take medicine at
 
 Here's the flow of the main function of medi.
 
-<img src="/prj/1.png" width="30%" height="30%">     <img src="/prj/2.png" width="30%" height="30%">     <img src="/prj/3.png" width="30%" height="30%">
+|<img src="/prj/1.png" width="400px" height="400px">|<img src="/prj/2.png" width="400px" height="400px">|<img src="/prj/3.png" width="400px" height="400px">|
 
 
 Here's the flow of the main function. Users take picture of the medicine number from prescriptions and then automatically cropped the image area with numbers. Then users can fix the numbers manually if there's error. By the given number, users get information of the medicine which is uploaded on the users' own database automatically. Therefore, our secondary function of medi is as below.
 
-<img src="/prj/4.png" width="30%" height="30%">  <img src="/prj/5.png" width="30%" height="30%"> <img src="/prj/6.png" width="30%" height="30%">
+|<img src="/prj/4.png" width="400px" height="400px">|<img src="/prj/5.png" width="400px" height="400px">|<img src="/prj/6.png" width="400px" height="400px">|
 
 Here's the flow of the alarm function. Users set the time of the alarm for the time to take medicine and it's daily dose.
 
