@@ -17,6 +17,8 @@ Here's the flow of the main function. Users take picture of the medicine number 
 
 |<img src="/prj/4.png" width="30%" height="30%">|<img src="/prj/5.png" width="30%" height="30%">|<img src="/prj/6.png" width="30%" height="30%">|
 |:--:|:--:|:--:| 
+
+
 Here's the flow of the alarm function. Users set the time of the alarm for the time to take medicine and it's daily dose.
 
 
